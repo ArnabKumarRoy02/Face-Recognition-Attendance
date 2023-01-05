@@ -20,6 +20,14 @@ while True:
     success, img = cap.read()
 
     imgBackground[162:162+480, 55:55+640] = img
+    
+    # To show that webcam is active 
+    imgBackground[44:44+633, 808:808+414] = imgModeList[0]
+    # To show students record details
+    imgBackground[44:44+633, 808:808+414] = imgModeList[1]
+    # To show that the student's attendance is marked
+    imgBackground[44:44+633, 808:808+414] = imgModeList[2]
+    # To show that the student's attendance is already marked
     imgBackground[44:44+633, 808:808+414] = imgModeList[3]
 
     # cv2.imshow("Webcam", img)
