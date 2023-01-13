@@ -1,7 +1,9 @@
 import cv2
+import numpy as np
 import os
 import pickle
 import face_recognition
+import cvzone
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
@@ -50,8 +52,23 @@ while True:
     for encodeFace, faceLocation in zip(encodeCurrentFrame, faceCurrentFrame):
         matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
         faceDistance = face_recognition.face_distance(encodeListKnown, encodeFace)
-        print("matches", matches)
-        print("faceDistance", faceDistance)
+        # print("matches", matches)
+        # print("faceDistance", faceDistance)
+
+        matchIndex = np.argmin(faceDistance)
+        # Print the index of the user trained data
+        # Suppose user trained data is in index 1 of the total array
+        # So the output would be Match Index 1
+        # print("Match Index", matchIndex)
+
+        # If a face is matched with the any index, it will print
+        if matches[matchIndex]:
+            # print("Known Face Detected")
+            # print(studentIds[matchIndex])
+            y1, x2, y2, x1 = faceLocation
+            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+            bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
+            imgBackground = cvzone.cornerRect(imgBackground, bbox, rt=0)
 
     # cv2.imshow("Webcam", img)
     cv2.imshow("Face Attendance", imgBackground)
